@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chapter 1</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #030711;
+            color: #dce9ff;
+            font-family: "Courier New", monospace;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(90, 150, 255, 0.25), transparent 25%),
+                radial-gradient(circle at 80% 10%, rgba(120, 180, 255, 0.18), transparent 30%),
+                radial-gradient(circle at 50% 80%, rgba(60, 90, 180, 0.18), transparent 35%),
+                linear-gradient(to bottom, #02040b, #050917 55%, #01030a);
+            z-index: -4;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(#ffffff 0.7px, transparent 0.7px),
+                radial-gradient(#85b8ff 0.9px, transparent 0.9px),
+                radial-gradient(#ffffff 1px, transparent 1px);
+            background-size: 90px 90px, 150px 150px, 230px 230px;
+            background-position: 0 0, 40px 70px, 130px 20px;
+            opacity: 0.45;
+            animation: driftStars 70s linear infinite;
+            z-index: -3;
+        }
+
+        @keyframes driftStars {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-180px);
+            }
+        }
+
+        .nebula {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse at 65% 35%, rgba(80, 140, 255, 0.18), transparent 32%),
+                radial-gradient(ellipse at 40% 65%, rgba(160, 190, 255, 0.09), transparent 35%);
+            filter: blur(1px);
+            z-index: -2;
+        }
+            .reader-page {
+        max-width: 950px;
+        margin: auto;
+        padding: 80px 20px;
+    }
+
+    .chapter-hero {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .chapter-label {
+        color: #8dbdff;
+        letter-spacing: 5px;
+        font-size: 12px;
+        margin-bottom: 18px;
+    }
+
+    .chapter-hero h1 {
+        font-size: 72px;
+        font-family: Georgia, serif;
+        font-weight: 400;
+        color: white;
+        margin-bottom: 14px;
+        text-shadow: 0 0 25px rgba(120,180,255,0.25);
+    }
+
+    .chapter-subtitle {
+        color: #9dbde0;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        font-size: 13px;
+    }
+
+    .controls {
+        color: rgba(218, 236, 255, 0.6);
+        letter-spacing: 7px;
+    }
+
+    .window-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 12px 16px;
+
+        border-bottom: 1px solid rgba(125, 180, 255, 0.28);
+
+        color: #b7d8ff;
+
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 13px;
+    }
+
+    .reader-window {
+        border: 1px solid rgba(125, 180, 255, 0.35);
+        background: rgba(3, 9, 22, 0.78);
+        backdrop-filter: blur(10px);
+        box-shadow:
+            0 0 40px rgba(76, 130, 220, 0.12),
+            inset 0 0 60px rgba(120, 170, 255, 0.03);
+    }
+
+    .chapter-content {
+        padding: 60px;
+        line-height: 2.2;
+        font-size: 18px;
+        color: #d7e5f7;
+        font-family: Georgia, serif;
+    }
+
+    .chapter-content p {
+        margin-bottom: 32px;
+    }
+
+    .chapter-content blockquote {
+        margin: 50px 0;
+        padding-left: 30px;
+        border-left: 2px solid #8ec8ff;
+        color: #b9d8ff;
+        font-size: 22px;
+        font-style: italic;
+        text-shadow: 0 0 15px rgba(125,180,255,0.15);
+    }
+
+    .chapter-navigation {
+        margin-top: 60px;
+        text-align: center;
+    }
+
+    .next-button {
+        display: inline-block;
+        padding: 18px 38px;
+        border: 1px solid rgba(125,180,255,0.45);
+        color: #c7defa;
+        text-decoration: none;
+        letter-spacing: 3px;
+        font-size: 12px;
+        text-transform: uppercase;
+        transition: 0.3s;
+        background: rgba(5,10,20,0.5);
+    }
+
+    .next-button:hover {
+        transform: translateY(-4px);
+        background: rgba(125,180,255,0.08);
+        box-shadow: 0 0 20px rgba(125,180,255,0.2);
+    }
+
+    @media (max-width: 700px) {
+
+        .chapter-content {
+            padding: 30px;
+            font-size: 16px;
+        }
+
+        .chapter-hero h1 {
+            font-size: 48px;
+        }
+
+    }
+    .orv-footer {
+
+    margin-top: 120px;
+
+    padding: 50px 20px;
+
+    border-top: 1px solid rgba(125, 180, 255, 0.18);
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 20px;
+
+    color: #9bb8da;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            rgba(5, 10, 20, 0.45)
+        );
+}
+
+    .footer-logo {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 18px;
+
+        letter-spacing: 4px;
+
+        font-size: 12px;
+
+        text-transform: uppercase;
+    }
+
+    .footer-logo .sigil {
+
+        width: 42px;
+
+        height: 42px;
+
+        margin-bottom: 0;
+
+        opacity: 0.85;
+    }
+
+    .footer-credit {
+
+        font-size: 12px;
+
+        letter-spacing: 2px;
+
+        opacity: 0.7;
+    }
+    </style>
+</head>
+
+<body>
+<main class="reader-page">
+
+    <section class="chapter-hero">
+
+        <p class="chapter-label">
+            OMNISCIENT READER'S VIEWPOINT
+        </p>
+
+        <h1>
+            Chapter 1
+        </h1>
+
+        <p class="chapter-subtitle">
+            Starting the Paid Service
+        </p>
+
+    </section>
+
+
+    <section class="reader-window">
+
+        <div class="window-header">
+            <span>Three ways to Survive in the Ruined World</span>
+            <span class="controls">— □ ×</span>
+        </div>
+
+        <div class="chapter-content">
+
+            <p>
+                –Three Ways to Survive in a Ruined World [Complete]<br>
+                A web novel platform filled the screen of my old smartphone. I scrolled down and then up again. How many times have I been doing this?<br>
+                "Really? This is the end?"<br>
+                I looked again, and the 'complete' was unmistakable. The story was over.<br>
+                『Three Ways to Survive in a Ruined World』 was a feature-length fantasy novel with 3,149 chapters. Its shortened name was 'Ways of Survival'.<br>
+                I have been steadily reading this novel since the third year of middle school. Even when I was bullied by the delinquents at my school, even when I had to enter a third-rate, local university since I screwed up my entrance exams, even when I was assigned to a military unit at the frontlines since the damn military draft lottery went wrong, and even now, working as a contractor for a large subsidiary, still without a full-time job... damn it, let's stop thinking about this. Anyway.<br>
+                「 Author's words: Thank you so much for reading 'Ways of Survival' up to here. I will come back to you with an [epilogue]! 」<br>
+                "Ah… The epilogue still remains. Then the next chapter is really the last one."<br>
+                From the end of my childhood all the way to adulthood—a long journey spanning over ten years. I felt a mixture of desolation that a world was coming to an end along with a sense of fulfillment from finally being able to reach the conclusion of that world. I opened the comment box for the last chapter and re-wrote a sentence several times.<br>
+                –Kim Dokja: Writer, thank you for everything in the meantime. I am looking forward to the epilogue.<br>
+                They were sincere sentences. Ways of Survival was my life's novel. It wasn't the most popular, but it was the best novel for me. There were many words I wanted to say but I couldn't write them. I was afraid that my careless words would hurt the writer.<br>
+                –An average of 1.9 hits per chapter.<br>
+                –An average of 1.08 comments.<br>
+                This was the average popularity index of 'Ways of Survival'. The number of views for the first chapter was 1,200, but it fell to 120 for the 10th chapter, and then 12 for the 50th chapter. By the time it was the 100th chapter, it was only 1.<br>
+                Hits = 1.<br>
+                I was overwhelmed by the feeling I got when I saw the numerous '1' that appeared next to the list of chapters. In some cases, there was a '2', but it was likely someone pressing the wrong button.<br>
+                'Thank you'.<br>
+                The author published a novel with more than 3,000 chapters with just 1 hit per chapter over a period of 10 years. It was truly a story just for me. I pressed on the 'Recommendation Board' and immediately started tapping on the keyboard,<br>
+                –I have a dope novel to recommend<br>
+                The author wrote me a free completed novel, so I should give him a recommendation. I clicked on the completed button, and comments quickly appeared.<br>
+                –It looks like a new anti. I searched for this person's ID, and they recommended the same novel several times.<br>
+                –Isn't his recommendation banned? The author shouldn't do this here.<br>
+                Belatedly, it occurred to me that I wrote a recommendation a few months ago. In an instant, dozens of comments were covered with rhetoric such as "attention seeker" or "dumbass." My face became flushed.<br>
+                I was sure the author would also read this. So, I hurriedly tried to delete my post, but I only got a message saying that it couldn't be deleted because it had already been reported.<br>
+                "This…"<br>
+                There was a bitter taste in my mouth at the thought that the sincerely written recommendation ended up becoming a stain on the novel's reputation. If they even looked a little bit, why didn't anyone try reading the interesting novel? I wanted to give a donation to the writer, but I couldn't afford it because I was a salary worker barely able to make a living. Then I received a notification that a 'message has arrived'.<br>
+                –tls123: Thank you.<br>
+                A message flew in from out of nowhere. It took me a while to grasp the situation.<br>
+                –Kim Dokja: The author?<br>
+                tls123—it was the author of 'Ways of Survival'.<br>
+                –tls123: I was able to complete it to the end thanks to you. I also won the competition.<br>
+                I couldn't believe it. Ways of Survival won a competition?<br>
+                –Kim Dokja: Congratulations! What is the competition?<br>
+                –tls123: You won't know it because it is an unknown competition.<br>
+                I wondered if he lied because he was ashamed, but I wanted it to be true. Perhaps I really didn't know. It might be a big hit on other platforms. I was a little sad, but it was good to have an excellent story spreading.<br>
+                –tls123: I would like to send a special gift to you as a thank you.<br>
+                –Kim Dokja: Gift?<br>
+                –tls123: It is thanks to my dear reader that this story has come into the world.<br>
+                I gave the writer my email address as he asked.<br>
+                –tls123: Ah, right. I got the monetization schedule.<br>
+                –Kim Dokja: Wow, really? When will it start? This masterpiece should've been paid from the beginning…<br>
+                It was a lie. The Ways of Survival was a daily series, so I would've had to spend 3,000 won a month. 3,000 won was one convenience-store lunch for me.<br>
+                –tls123: The monetization starts tomorrow.<br>
+                –Kim Dokja: Then the epilogue coming tomorrow will be paid?<br>
+                –tls123: Yes, I'm afraid you need to pay for it.<br>
+                –Kim Dokja: Of course, I have to pay! I will buy the last one!<br>
+                After that, there was no reply from the author. It looked like they logged out of the site. A sense of despondency settled in. Were they leaving without even replying now that they were successful? My admiration turned into petty jealousy. What was I so excited about? It wasn't like I had written the novel anyway.<br>
+                "Will they give me a gift certificate? It'd be nice if it has around 50,000 won."<br>
+                Those were the naive thoughts I had back then.<br>
+                I knew nothing about what would happen to the world the next day.<br>
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="chapter-navigation">
+
+
+        <a class="next-button" href="index.html" target="_blank">
+
+            NEXT CHAPTER →
+
+        </a>
+</body>
+    </section>
+        <footer class="orv-footer">
+
+        <div class="footer-logo">
+
+            <div class="sigil"></div>
+
+            <span>ORV ARCHIVE</span>
+
+        </div>
+
+        <div class="footer-credit">
+            Designed by Emilia Kojs s35956
+        </div>
+
+    </footer>
+
+</main>

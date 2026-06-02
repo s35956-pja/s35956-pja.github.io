@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constellation Archive</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #030711;
+            color: #dce9ff;
+            font-family: "Courier New", monospace;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(90, 150, 255, 0.25), transparent 25%),
+                radial-gradient(circle at 80% 10%, rgba(120, 180, 255, 0.18), transparent 30%),
+                radial-gradient(circle at 50% 80%, rgba(60, 90, 180, 0.18), transparent 35%),
+                linear-gradient(to bottom, #02040b, #050917 55%, #01030a);
+            z-index: -4;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(#ffffff 0.7px, transparent 0.7px),
+                radial-gradient(#85b8ff 0.9px, transparent 0.9px),
+                radial-gradient(#ffffff 1px, transparent 1px);
+            background-size: 90px 90px, 150px 150px, 230px 230px;
+            background-position: 0 0, 40px 70px, 130px 20px;
+            opacity: 0.45;
+            animation: driftStars 70s linear infinite;
+            z-index: -3;
+        }
+
+        @keyframes driftStars {
+            from { transform: translateY(0); }
+            to { transform: translateY(-180px); }
+        }
+
+        .nebula {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse at 65% 35%, rgba(80, 140, 255, 0.18), transparent 32%),
+                radial-gradient(ellipse at 40% 65%, rgba(160, 190, 255, 0.09), transparent 35%);
+            z-index: -2;
+        }
+
+        main {
+            max-width: 1350px;
+            margin: auto;
+            padding: 70px 28px 40px;
+        }
+
+        .page-hero {
+            text-align: center;
+            margin-bottom: 55px;
+        }
+
+        .eyebrow {
+            color: #8dbdff;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            font-size: 12px;
+            margin-bottom: 22px;
+        }
+
+        h1 {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(46px, 8vw, 105px);
+            font-weight: 400;
+            line-height: 0.9;
+            color: #edf5ff;
+            text-shadow: 0 0 35px rgba(130, 185, 255, 0.28);
+            margin-bottom: 24px;
+        }
+
+        .subtitle {
+            color: #9dbde0;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-size: 13px;
+        }
+
+        .archive-layout {
+            display: grid;
+            grid-template-columns: 0.9fr 1.3fr;
+            gap: 28px;
+            align-items: stretch;
+        }
+
+        .window {
+            border: 1px solid rgba(125, 180, 255, 0.32);
+            background: rgba(4, 10, 22, 0.76);
+            backdrop-filter: blur(14px);
+            box-shadow:
+                0 0 40px rgba(76, 130, 220, 0.10),
+                inset 0 0 70px rgba(120, 170, 255, 0.025);
+            overflow: hidden;
+        }
+
+        .window-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(125, 180, 255, 0.25);
+            color: #b7d8ff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 13px;
+        }
+
+        .controls {
+            color: rgba(218, 236, 255, 0.6);
+            letter-spacing: 7px;
+        }
+
+        .map-panel {
+            min-height: 620px;
+            position: relative;
+            background:
+                radial-gradient(circle at 50% 42%, rgba(125, 180, 255, 0.13), transparent 36%),
+                radial-gradient(circle at 20% 70%, rgba(80, 130, 255, 0.11), transparent 32%),
+                rgba(2, 6, 16, 0.55);
+        }
+
+        .constellation-orbit {
+            position: absolute;
+            inset: 55px;
+            border: 1px solid rgba(140, 190, 255, 0.18);
+            border-radius: 50%;
+            animation: slowRotate 42s linear infinite;
+        }
+
+        .constellation-orbit::before,
+        .constellation-orbit::after {
+            content: "";
+            position: absolute;
+            inset: 70px;
+            border: 1px solid rgba(140, 190, 255, 0.12);
+            border-radius: 50%;
+        }
+
+        .constellation-orbit::after {
+            inset: 135px;
+        }
+
+        @keyframes slowRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .core-star {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 86px;
+            height: 86px;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(180, 220, 255, 0.5);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            color: white;
+            font-size: 34px;
+            box-shadow:
+                0 0 35px rgba(140, 190, 255, 0.45),
+                inset 0 0 25px rgba(140, 190, 255, 0.15);
+        }
+
+        .map-label {
+            position: absolute;
+            bottom: 28px;
+            left: 28px;
+            right: 28px;
+            border: 1px solid rgba(125, 180, 255, 0.25);
+            padding: 18px;
+            color: #a9c9ef;
+            font-size: 12px;
+            line-height: 1.8;
+            background: rgba(1, 5, 14, 0.55);
+            letter-spacing: 1px;
+        }
+
+        .star-node {
+            position: absolute;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 0 18px #9dc8ff, 0 0 35px #76a7ff;
+            animation: pulse 2.4s ease-in-out infinite;
+        }
+
+        .n1 { top: 18%; left: 52%; }
+        .n2 { top: 36%; right: 18%; animation-delay: .3s; }
+        .n3 { bottom: 30%; right: 25%; animation-delay: .8s; }
+        .n4 { bottom: 25%; left: 24%; animation-delay: 1.2s; }
+        .n5 { top: 34%; left: 18%; animation-delay: 1.6s; }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.7); opacity: 1; }
+        }
+
+        .profiles {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        .profile-card {
+            min-height: 300px;
+            border: 1px solid rgba(125, 180, 255, 0.25);
+            background:
+                linear-gradient(to bottom, rgba(7, 15, 32, 0.82), rgba(2, 6, 15, 0.88));
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.35s;
+        }
+
+        .profile-card::before {
+            content: "";
+            position: absolute;
+            inset: -40%;
+            background: radial-gradient(circle, rgba(125, 180, 255, 0.12), transparent 38%);
+            opacity: 0;
+            transition: 0.35s;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 0 35px rgba(125, 180, 255, 0.14);
+        }
+
+        .profile-card:hover::before {
+            opacity: 1;
+        }
+
+        .profile-symbol {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            border: 1px solid rgba(180, 220, 255, 0.42);
+            display: grid;
+            place-items: center;
+            font-size: 32px;
+            margin-bottom: 24px;
+            color: #e7f2ff;
+            box-shadow: inset 0 0 20px rgba(125, 180, 255, 0.11);
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-card h2 {
+            font-family: Georgia, serif;
+            font-size: 28px;
+            font-weight: 400;
+            color: white;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .rank {
+            color: #8fb9ea;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-size: 11px;
+            margin-bottom: 22px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .description {
+            color: #c8d9ef;
+            line-height: 1.8;
+            font-size: 14px;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats {
+            display: grid;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat {
+            display: grid;
+            grid-template-columns: 90px 1fr 60px;
+            gap: 10px;
+            align-items: center;
+            font-size: 11px;
+            color: #a9c9ef;
+        }
+
+        .bar {
+            height: 7px;
+            background: rgba(125, 180, 255, 0.08);
+            border: 1px solid rgba(125, 180, 255, 0.16);
+            overflow: hidden;
+        }
+
+        .fill {
+            height: 100%;
+            background: linear-gradient(to right, #7fb7ff, #d8ecff);
+            box-shadow: 0 0 14px rgba(125, 180, 255, 0.5);
+        }
+
+        .system-panel {
+            margin-top: 30px;
+        }
+
+        .system-content {
+            padding: 34px;
+            display: grid;
+            gap: 18px;
+        }
+
+        .message {
+            border-left: 2px solid #8ec8ff;
+            padding: 16px 22px;
+            color: #cde3ff;
+            background: rgba(125, 180, 255, 0.045);
+            line-height: 1.8;
+            font-family: Georgia, serif;
+            font-size: 18px;
+        }
+
+        .navigation {
+            margin-top: 55px;
+            text-align: center;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 16px 34px;
+            border: 1px solid rgba(125, 180, 255, 0.45);
+            color: #c7defa;
+            text-decoration: none;
+            letter-spacing: 3px;
+            font-size: 12px;
+            text-transform: uppercase;
+            transition: 0.3s;
+            background: rgba(5, 10, 20, 0.5);
+        }
+
+        .button:hover {
+            transform: translateY(-4px);
+            background: rgba(125, 180, 255, 0.08);
+            box-shadow: 0 0 22px rgba(125, 180, 255, 0.22);
+        }
+
+        .orv-footer {
+            margin-top: 95px;
+            padding: 45px 0 20px;
+            border-top: 1px solid rgba(125, 180, 255, 0.18);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            color: #9bb8da;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            letter-spacing: 4px;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .sigil {
+            width: 42px;
+            height: 42px;
+            border: 1px solid #9cc8ff;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 0 18px rgba(130, 190, 255, 0.45);
+        }
+
+        .sigil::before,
+        .sigil::after {
+            content: "";
+            position: absolute;
+            inset: 8px;
+            border: 1px solid rgba(220, 238, 255, 0.75);
+            transform: rotate(45deg);
+        }
+
+        .sigil::after {
+            inset: 15px;
+            border-radius: 50%;
+            transform: none;
+        }
+
+        .footer-credit {
+            font-size: 12px;
+            letter-spacing: 2px;
+            opacity: 0.75;
+        }
+
+        @media (max-width: 1000px) {
+            .archive-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .profiles {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+            main {
+                padding: 45px 18px 30px;
+            }
+
+            .profile-card {
+                padding: 24px;
+            }
+
+            .stat {
+                grid-template-columns: 1fr;
+            }
+
+            .map-panel {
+                min-height: 480px;
+            }
+
+            .orv-footer {
+                justify-content: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nebula"></div>
+
+    <main>
+        <section class="page-hero">
+            <p class="eyebrow">Star Stream Archive</p>
+            <h1>CONSTELLATION<br>DATABASE</h1>
+            <p class="subtitle">The beings watching from beyond the scenarios</p>
+        </section>
+
+        <section class="archive-layout">
+            <article class="window map-panel">
+                <div class="window-header">
+                    <span>● Observation Map</span>
+                    <span class="controls">— □ ×</span>
+                </div>
+
+                <div class="constellation-orbit"></div>
+                <div class="core-star">✦</div>
+
+                <div class="star-node n1"></div>
+                <div class="star-node n2"></div>
+                <div class="star-node n3"></div>
+                <div class="star-node n4"></div>
+                <div class="star-node n5"></div>
+
+                <div class="map-label">
+                    [CHANNEL OPEN]<br>
+                    Multiple constellations have entered The Star Stream.  
+                    Their attention is unstable and extremely valuable.
+                </div>
+            </article>
+
+            <section class="profiles">
+                <article class="profile-card">
+                    <div class="profile-symbol">✧</div>
+                    <h2>Demon King of Salvation</h2>
+                    <p class="rank">Fable-grade</p>
+                    <p class="description">
+                       A strange and contradictory existence rejected by both demons and constellations.
+                        Associated with sacrifice, regression, and stories that refuse to end,
+                        this being is remembered as both humanity’s enemy and its salvation.
+                    </p>
+
+                    <div class="stats">
+                        <div class="stat">
+                            <span>Influence</span>
+                            <div class="bar"><div class="fill" style="width: 72%;"></div></div>
+                            <span>72%</span>
+                        </div>
+                        <div class="stat">
+                            <span>Intelligence</span>
+                            <div class="bar"><div class="fill" style="width: 92%;"></div></div>
+                            <span>92%</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="profile-card">
+                    <div class="profile-symbol">✦</div>
+                    <h2>Secretive Plotter</h2>
+                    <p class="rank">Outer God</p>
+                    <p class="description">
+                        A constellation surrounded by countless secrets and fragmented stories.
+                        Existing beyond ordinary probability, this being quietly observes those who struggle
+                        against predetermined endings, repeated lives, and stories that should have already ended.
+                    </p>
+
+                    <div class="stats">
+                        <div class="stat">
+                            <span>Influence</span>
+                            <div class="bar"><div class="fill" style="width: 100%;"></div></div>
+                            <span>100%</span>
+                        </div>
+                        <div class="stat">
+                            <span>Interest</span>
+                            <div class="bar"><div class="fill" style="width: 88%;"></div></div>
+                            <span>88%</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="profile-card">
+                    <div class="profile-symbol">☾</div>
+                    <h2>Prisoner of the Golden Headband</h2>
+                    <p class="rank">Myth-grade</p>
+                    <p class="description">
+                        A legendary constellation associated with rebellion against heaven itself.
+                        Though restrained by ancient bindings and ridicule,
+                        his strength and defiance remain feared throughout the Star Stream.
+                    </p>
+
+                    <div class="stats">
+                        <div class="stat">
+                            <span>Blessing</span>
+                            <div class="bar"><div class="fill" style="width: 68%;"></div></div>
+                            <span>68%</span>
+                        </div>
+                        <div class="stat">
+                            <span>Stability</span>
+                            <div class="bar"><div class="fill" style="width: 98%;"></div></div>
+                            <span>98%</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="profile-card">
+                    <div class="profile-symbol">△</div>
+                    <h2>Demon-like Judge of Fire</h2>
+                    <p class="rank">Fable-grade</p>
+                    <p class="description">
+                       A constellation representing destruction, battle, and overwhelming flames.
+                        Known for her explosive temper and brutal sponsorships,
+                        she favors incarnations who continue fighting even when the ending is already decided.
+                    </p>
+
+                    <div class="stats">
+                        <div class="stat">
+                            <span>Power</span>
+                            <div class="bar"><div class="fill" style="width: 90%;"></div></div>
+                            <span>90%</span>
+                        </div>
+                        <div class="stat">
+                            <span>Curiosity</span>
+                            <div class="bar"><div class="fill" style="width: 84%;"></div></div>
+                            <span>84%</span>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </section>
+
+        <section class="window system-panel">
+            <div class="window-header">
+                <span>● System Messages</span>
+                <span class="controls">— □ ×</span>
+            </div>
+
+            <div class="system-content">
+                <div class="message">[The constellations are watching your story with great interest.]</div>
+                <div class="message">[Several beings have begun discussing the probability of your survival.]</div>
+                <div class="message">[A hidden constellation is silent, but its gaze remains fixed on you.]</div>
+            </div>
+        </section>
+
+        <section class="navigation">
+            <a class="button" href="index.html" target="_blank">← Return to Main</a>
+        </section>
+
+        <footer class="orv-footer">
+            <div class="footer-logo">
+                <div class="sigil"></div>
+                <span>ORV Archive</span>
+            </div>
+
+            <div class="footer-credit">
+                Designed by Emilia Kojs s35956
+            </div>
+        </footer>
+    </main>
+</body>
+</html>
