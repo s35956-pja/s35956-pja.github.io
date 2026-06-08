@@ -2,630 +2,31 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Omniscient Reader's Viewpoint</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            min-height: 100vh;
-            background: #030711;
-            color: #dce9ff;
-            font-family: "Courier New", monospace;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background:
-                radial-gradient(circle at 20% 20%, rgba(90, 150, 255, 0.25), transparent 25%),
-                radial-gradient(circle at 80% 10%, rgba(120, 180, 255, 0.18), transparent 30%),
-                radial-gradient(circle at 50% 80%, rgba(60, 90, 180, 0.18), transparent 35%),
-                linear-gradient(to bottom, #02040b, #050917 55%, #01030a);
-            z-index: -4;
-        }
-
-        body::after {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background-image:
-                radial-gradient(#ffffff 0.7px, transparent 0.7px),
-                radial-gradient(#85b8ff 0.9px, transparent 0.9px),
-                radial-gradient(#ffffff 1px, transparent 1px);
-            background-size: 90px 90px, 150px 150px, 230px 230px;
-            background-position: 0 0, 40px 70px, 130px 20px;
-            opacity: 0.45;
-            animation: driftStars 70s linear infinite;
-            z-index: -3;
-        }
-
-        @keyframes driftStars {
-            from {
-                transform: translateY(0);
-            }
-
-            to {
-                transform: translateY(-180px);
-            }
-        }
-
-        .nebula {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            background:
-                radial-gradient(ellipse at 65% 35%, rgba(80, 140, 255, 0.18), transparent 32%),
-                radial-gradient(ellipse at 40% 65%, rgba(160, 190, 255, 0.09), transparent 35%);
-            filter: blur(1px);
-            z-index: -2;
-        }
-
-        .layout {
-            display: grid;
-            grid-template-columns: 95px 1fr;
-            min-height: 100vh;
-        }
-
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 95px;
-            height: 100vh;
-            border-right: 1px solid rgba(125, 180, 255, 0.35);
-            background: rgba(2, 6, 16, 0.75);
-            backdrop-filter: blur(12px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 24px 10px;
-            z-index: 20;
-        }
-
-        .sigil {
-            width: 54px;
-            height: 54px;
-            border: 1px solid #9cc8ff;
-            border-radius: 50%;
-            position: relative;
-            margin-bottom: 18px;
-            box-shadow: 0 0 18px rgba(130, 190, 255, 0.45);
-        }
-
-        .sigil::before,
-        .sigil::after {
-            content: "";
-            position: absolute;
-            inset: 10px;
-            border: 1px solid rgba(220, 238, 255, 0.75);
-            transform: rotate(45deg);
-        }
-
-        .sigil::after {
-            inset: 18px;
-            border-radius: 50%;
-            transform: none;
-        }
-
-        .logo {
-            letter-spacing: 5px;
-            font-size: 16px;
-            margin-bottom: 35px;
-        }
-
-        nav {
-            display: flex;
-            flex-direction: column;
-            gap: 28px;
-            width: 100%;
-            align-items: center;
-        }
-
-        nav a {
-            color: #b8d6ff;
-            text-decoration: none;
-            font-size: 10px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            text-align: center;
-            opacity: 0.75;
-            transition: 0.3s;
-        }
-
-        nav a span {
-            display: block;
-            font-size: 24px;
-            margin-bottom: 7px;
-        }
-
-        nav a:hover {
-            opacity: 1;
-            color: white;
-            text-shadow: 0 0 10px #7db5ff;
-            transform: translateY(-2px);
-        }
-
-        main {
-            grid-column: 2;
-            padding: 60px 6vw 45px;
-        }
-
-        .hero {
-            min-height: 620px;
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 34px;
-            align-items: center;
-            position: relative;
-        }
-
-        .eyebrow {
-            color: #8dbdff;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            font-size: 12px;
-            margin-bottom: 30px;
-        }
-
-        h1 {
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: clamp(48px, 7vw, 104px);
-            line-height: 0.9;
-            letter-spacing: 2px;
-            font-weight: 400;
-            color: #edf5ff;
-            text-shadow: 0 0 30px rgba(130, 185, 255, 0.28);
-            margin-bottom: 28px;
-        }
-
-        .korean {
-            letter-spacing: 10px;
-            color: #b9d8ff;
-            opacity: 0.7;
-            margin-bottom: 32px;
-        }
-
-        .quote-box {
-            width: fit-content;
-            border: 1px solid rgba(125, 180, 255, 0.45);
-            padding: 16px 22px;
-            color: #9dc8ff;
-            letter-spacing: 2px;
-            background: rgba(7, 16, 34, 0.42);
-            box-shadow: inset 0 0 30px rgba(92, 155, 255, 0.05);
-        }
-
-        .constellation-map {
-            position: relative;
-            height: 470px;
-            border: 1px solid rgba(125, 180, 255, 0.15);
-            background: radial-gradient(circle at center, rgba(95, 151, 255, 0.08), transparent 55%);
-            overflow: hidden;
-        }
-
-        .star {
-            position: absolute;
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: white;
-            box-shadow: 0 0 16px #9dc8ff, 0 0 32px #76a7ff;
-            animation: pulse 2.4s ease-in-out infinite;
-        }
-
-        .star.s1 {
-            top: 16%;
-            left: 48%;
-        }
-
-        .star.s2 {
-            top: 28%;
-            left: 62%;
-            animation-delay: 0.3s;
-        }
-
-        .star.s3 {
-            top: 43%;
-            left: 51%;
-            animation-delay: 0.7s;
-        }
-
-        .star.s4 {
-            top: 55%;
-            left: 69%;
-            animation-delay: 1s;
-        }
-
-        .star.s5 {
-            top: 66%;
-            left: 42%;
-            animation-delay: 1.4s;
-        }
-
-        .star.s6 {
-            top: 35%;
-            left: 34%;
-            animation-delay: 1.8s;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-                opacity: 0.7;
-            }
-
-            50% {
-                transform: scale(1.7);
-                opacity: 1;
-            }
-        }
-
-        svg.lines {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.65;
-        }
-
-        .watching {
-            position: absolute;
-            right: 24px;
-            top: 24px;
-            color: #9fcaff;
-            border: 1px solid rgba(130, 190, 255, 0.35);
-            padding: 16px;
-            background: rgba(2, 6, 16, 0.55);
-            font-size: 12px;
-            line-height: 1.7;
-            letter-spacing: 2px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 1.2fr 0.95fr;
-            gap: 26px;
-            margin-top: 30px;
-        }
-
-        .window {
-            border: 1px solid rgba(125, 180, 255, 0.42);
-            background: rgba(3, 9, 22, 0.72);
-            box-shadow: 0 0 35px rgba(76, 130, 220, 0.12), inset 0 0 60px rgba(120, 170, 255, 0.035);
-            backdrop-filter: blur(10px);
-            position: relative;
-        }
-
-        .window-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            border-bottom: 1px solid rgba(125, 180, 255, 0.28);
-            color: #b7d8ff;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 13px;
-        }
-
-        .controls {
-            color: rgba(218, 236, 255, 0.6);
-            letter-spacing: 7px;
-        }
-
-        .story-content {
-            padding: 30px;
-            display: grid;
-            grid-template-columns: 1fr 0.8fr;
-            gap: 24px;
-            line-height: 1.8;
-            font-size: 14px;
-            color: #c7d7ec;
-        }
-
-        .story-image {
-            min-height: 470px;
-            border: 1px solid rgba(125, 180, 255, 0.25);
-            background:
-                linear-gradient(to top, rgba(2, 5, 13, 0.95), transparent 45%),
-                radial-gradient(circle at center, rgba(160, 190, 255, 0.18), transparent 35%),
-                linear-gradient(130deg, rgba(32, 53, 87, 0.55), rgba(4, 8, 18, 0.7));
-            position: relative;
-            overflow: hidden;
-        }
-
-        .story-image img {
-            width: 100%;
-            height: 100%;
-            min-height: 470px;
-            object-fit: cover;
-            object-position: center;
-            display: block;
-            filter: brightness(0.75) contrast(1.1);
-        }
-
-        .story-image::after {
-            content: "The reader stands alone at the end of a ruined world.";
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            color: rgba(222, 238, 255, 0.65);
-            font-size: 12px;
-            letter-spacing: 1px;
-        }
-
-        .button {
-            margin-top: 24px;
-            display: inline-block;
-            padding: 12px 28px;
-            border: 1px solid rgba(140, 198, 255, 0.45);
-            color: #b9d9ff;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 12px;
-            transition: 0.3s;
-        }
-
-        .button:hover {
-            background: rgba(125, 180, 255, 0.12);
-            box-shadow: 0 0 18px rgba(125, 180, 255, 0.35);
-        }
-
-        .characters {
-            padding: 18px;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-
-        .character-card {
-            border: 1px solid rgba(125, 180, 255, 0.28);
-            padding: 14px;
-            display: grid;
-            grid-template-columns: 120px 1fr;
-            gap: 16px;
-            background: rgba(1, 5, 14, 0.45);
-        }
-
-        .portrait img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            display: block;
-        }
-
-
-        .character-info h3 {
-            font-family: Georgia, serif;
-            font-weight: 400;
-            font-size: 21px;
-            margin-bottom: 10px;
-            color: #fff;
-        }
-
-        .meta {
-            color: #c0d8f5;
-            font-size: 12px;
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-
-        .stat {
-            display: grid;
-            grid-template-columns: 70px 1fr 20px;
-            align-items: center;
-            gap: 8px;
-            font-size: 11px;
-            margin: 6px 0;
-            color: #aac8eb;
-        }
-
-        .bar {
-            height: 8px;
-            display: grid;
-            grid-template-columns: repeat(10, 1fr);
-            gap: 3px;
-        }
-
-        .bar span {
-            border: 1px solid rgba(140, 190, 255, 0.3);
-            background: rgba(140, 190, 255, 0.15);
-        }
-
-        .bar .filled {
-            background: #a9ceff;
-            box-shadow: 0 0 8px rgba(150, 205, 255, 0.7);
-        }
-
-        .lower-grid {
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 26px;
-            margin-top: 26px;
-        }
-
-        .constellations {
-            padding: 22px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
-        }
-
-        .constellation-card {
-            border: 1px solid rgba(125, 180, 255, 0.22);
-            padding: 18px 12px;
-            text-align: center;
-            min-height: 180px;
-            background: rgba(1, 5, 14, 0.4);
-            transition: 0.3s;
-        }
-
-        .constellation-card {
-            color: inherit;
-            text-decoration: none;
-            }
-
-        .constellation-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(125, 180, 255, 0.18);
-        }
-
-        .symbol {
-            width: 72px;
-            height: 72px;
-            margin: 0 auto 16px;
-            border: 1px solid rgba(170, 210, 255, 0.5);
-            border-radius: 50%;
-            display: grid;
-            place-items: center;
-            font-size: 30px;
-            color: #d9ecff;
-            box-shadow: inset 0 0 18px rgba(125, 180, 255, 0.12);
-        }
-
-        .constellation-card h4 {
-            font-size: 13px;
-            font-weight: 400;
-            margin-bottom: 10px;
-        }
-
-        .constellation-card p {
-            font-size: 11px;
-            color: #9cb7d8;
-            line-height: 1.5;
-        }
-
-        .scenarios {
-            padding: 24px;
-        }
-
-        .scenario-row {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(125, 180, 255, 0.18);
-            padding: 15px 0;
-            color: #c5d8ef;
-            font-size: 13px;
-            line-height: 1.5;
-        }
-
-        .status {
-            color: #8ec8ff;
-            text-transform: uppercase;
-            font-size: 11px;
-            letter-spacing: 1px;
-            white-space: nowrap;
-            margin-left: 15px;
-        }
-
-            .ending {
-        margin-top: 30px;
-        border: 1px solid rgba(125, 180, 255, 0.35);
-        padding: 35px;
-        background: rgba(2, 7, 17, 0.55);
-
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-        }
-
-        .ending-quote {
-        text-align: center;
-        font-family: Georgia, serif;
-        font-size: clamp(18px, 2.4vw, 30px);
-        letter-spacing: 7px;
-        color: rgba(230, 242, 255, 0.78);
-        }
-
-        .ending-quote span {
-        display: block;
-        margin-top: 14px;
-        font-family: "Courier New", monospace;
-        font-size: 12px;
-        color: #8fb9ea;
-        letter-spacing: 3px;
-        }
-
-        .ending-signature {
-        align-self: flex-end;
-        font-family: "Courier New", monospace;
-        font-size: 11px;
-        letter-spacing: 2px;
-        color: #9bb8da;
-        opacity: 0.75;
-        }
-
-        @media (max-width: 1050px) {
-            .layout {
-                grid-template-columns: 1fr;
-            }
-
-            aside {
-                display: none;
-            }
-
-            main {
-                grid-column: 1;
-                padding: 35px 20px;
-            }
-
-            .hero,
-            .grid,
-            .lower-grid,
-            .story-content {
-                grid-template-columns: 1fr;
-            }
-
-            .constellations {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 620px) {
-            .character-card {
-                grid-template-columns: 1fr;
-            }
-
-            .constellations {
-                grid-template-columns: 1fr;
-            }
-
-            .ending {
-                letter-spacing: 3px;
-            }
-        }
-    </style>
+    <link rel="icon" type="image/jpg" href="favicon.jpg">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <header class="mobile-nav">
+        <a href="#home">Home</a>
+        <a href="#story">Story</a>
+        <a href="#characters">Characters</a>
+        <a href="#constellations">Constellations</a>
+    </header>
     <div class="nebula"></div>
 
     <div class="layout">
         <aside class="sidebar">
-            <div class="sigil"></div>
+            <a class="sigil" href="#home"></a>
             <div class="logo">ORV</div>
             <nav>
                 <a href="#home"><span>✦</span>Home</a>
                 <a href="#story"><span>▣</span>Story</a>
                 <a href="#characters"><span>╱╲</span>Characters</a>
-                <a href="#constellations"><span>△</span>Constellations</a>
+                <a href="#constellations"><span>△</span>Sponsors</a>
                 <a href="#scenarios"><span>☰</span>Scenarios</a>
             </nav>
         </aside>
@@ -639,7 +40,7 @@
                     <div class="quote-box">THE WORLD I USED TO READ HAS BECOME MY REALITY.</div>
                 </div>
 
-                <div class="constellation-map" aria-label="animated constellation map">
+                <div class="constellation-map" role="img" aria-label="animated constellation map">
                     <svg class="lines" viewBox="0 0 500 470" preserveAspectRatio="none">
                         <polyline points="170,165 240,75 310,132 255,202 345,258 210,310 170,165" fill="none"
                             stroke="#a9ceff" stroke-width="1" />
@@ -658,7 +59,7 @@
             <section class="grid" id="story">
                 <article class="window">
                     <div class="window-header">
-                        <span>● Story</span>
+                        <h2 class="window-title">● Story</h2>
                         <span class="controls">— □ ×</span>
                     </div>
                     <div class="story-content">
@@ -682,7 +83,7 @@
                                 and the other survivors, the more he realizes that this is no longer just a story to
                                 him.
                             </p>
-                            <a class="button" href="story.html" target="_blank">Continue Reading →</a>
+                            <a class="button" href="story.html">Continue Reading →</a>
                         </div>
                         <div class="story-image">
                             <img src="orv.jpeg" alt="Yoo Joonghyuk and Kim Dokja">
@@ -692,7 +93,7 @@
 
                 <aside class="window" id="characters">
                     <div class="window-header">
-                        <span>● Character Status Windows</span>
+                        <h2 class="window-title">● Character Status Windows</h2>
                         <span class="controls">— □ ×</span>
                     </div>
                     <div class="characters">
@@ -775,26 +176,26 @@
             <section class="lower-grid">
                 <article class="window" id="constellations">
                     <div class="window-header">
-                        <span>● Constellations</span>
+                        <h2 class="window-title">● Sponsors</h2>
                         <span class="controls">— □ ×</span>
                     </div>
                     <div class="constellations">
-                        <a class="constellation-card" href="constellations.html" target="_blank">
+                        <a class="constellation-card" href="constellations.html">
                             <div class="symbol">✧</div>
                             <h4>Demon King of Salvation</h4>
                             <p>Wants to see his dream ending.</p>
                         </a>
-                        <a class="constellation-card" href="constellations.html" target="_blank">
+                        <a class="constellation-card" href="constellations.html">
                             <div class="symbol">✦</div>
                             <h4>Secretive Plotter</h4>
                             <p>Curious about the next chapter.</p>
                         </a>
-                        <a class="constellation-card" href="constellations.html" target="_blank">
+                        <a class="constellation-card" href="constellations.html">
                             <div class="symbol">☾</div>
                             <h4>Prisoner of the Golden Headband</h4>
                             <p>Legendary constallation, who cares about his incarnetions.</p>
                         </a>
-                        <a class="constellation-card" href="constellations.html" target="_blank">
+                        <a class="constellation-card" href="constellations.html">
                             <div class="symbol">△</div>
                             <h4>Demon-like Judge of Fire</h4>
                             <p>Waiting for a beautiful comradeship.</p>
@@ -804,7 +205,7 @@
 
                 <article class="window" id="scenarios">
                     <div class="window-header">
-                        <span>● Scenarios</span>
+                        <h2 class="window-title">● Scenarios</h2>
                         <span class="controls">— □ ×</span>
                     </div>
                     <div class="scenarios">

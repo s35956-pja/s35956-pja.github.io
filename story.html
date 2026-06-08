@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chapter 1</title>
+    <link rel="shortcut icon" type="image/jpg" href="/favicon.jpg?v=3">
     <style>
         *{
             margin: 0;
@@ -98,6 +99,26 @@
         text-shadow: 0 0 25px rgba(120,180,255,0.25);
     }
 
+    .chapter-cover {
+        margin: 0 auto 50px;
+        max-width: 1000px;
+        border: 1px solid rgba(125, 180, 255, 0.25);
+        background: rgba(4, 10, 22, 0.72);
+        backdrop-filter: blur(10px);
+        overflow: hidden;
+        box-shadow:
+            0 0 35px rgba(76, 130, 220, 0.08),
+            inset 0 0 50px rgba(120, 170, 255, 0.02);
+    }
+
+    .chapter-cover img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        display: block;
+        filter: brightness(0.82) contrast(1.05);
+    }
+
     .chapter-subtitle {
         color: #9dbde0;
         letter-spacing: 3px;
@@ -126,6 +147,7 @@
         font-size: 13px;
     }
 
+
     .reader-window {
         border: 1px solid rgba(125, 180, 255, 0.35);
         background: rgba(3, 9, 22, 0.78);
@@ -138,7 +160,7 @@
     .chapter-content {
         padding: 60px;
         line-height: 2.2;
-        font-size: 18px;
+        font-size: 20px;
         color: #d7e5f7;
         font-family: Georgia, serif;
     }
@@ -169,7 +191,7 @@
         color: #c7defa;
         text-decoration: none;
         letter-spacing: 3px;
-        font-size: 12px;
+        font-size: 14px;
         text-transform: uppercase;
         transition: 0.3s;
         background: rgba(5,10,20,0.5);
@@ -196,23 +218,14 @@
     .orv-footer {
 
     margin-top: 120px;
-
     padding: 50px 20px;
-
     border-top: 1px solid rgba(125, 180, 255, 0.18);
-
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
     flex-wrap: wrap;
-
     gap: 20px;
-
     color: #9bb8da;
-
     background:
         linear-gradient(
             to bottom,
@@ -222,37 +235,52 @@
 }
 
     .footer-logo {
-
         display: flex;
-
         align-items: center;
-
         gap: 18px;
 
         letter-spacing: 4px;
-
         font-size: 12px;
-
         text-transform: uppercase;
+
+        color: #9bb8da;
+        text-decoration: none;
+
+        transition: 0.3s;
     }
 
-    .footer-logo .sigil {
-
-        width: 42px;
-
-        height: 42px;
-
-        margin-bottom: 0;
-
-        opacity: 0.85;
+    .footer-logo:hover {
+        color: #dcecff;
+        text-shadow: 0 0 12px rgba(125, 180, 255, 0.35);
     }
+
+    .sigil {
+            width: 42px;
+            height: 42px;
+            border: 1px solid #9cc8ff;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 0 18px rgba(130, 190, 255, 0.45);
+        }
+
+        .sigil::before,
+        .sigil::after {
+            content: "";
+            position: absolute;
+            inset: 8px;
+            border: 1px solid rgba(220, 238, 255, 0.75);
+            transform: rotate(45deg);
+        }
+
+        .sigil::after {
+            inset: 15px;
+            border-radius: 50%;
+            transform: none;
+        }
 
     .footer-credit {
-
-        font-size: 12px;
-
+        font-size: 13px;
         letter-spacing: 2px;
-
         opacity: 0.7;
     }
     </style>
@@ -261,21 +289,17 @@
 <body>
 <main class="reader-page">
 
-    <section class="chapter-hero">
-
-        <p class="chapter-label">
-            OMNISCIENT READER'S VIEWPOINT
-        </p>
-
-        <h1>
-            Chapter 1
-        </h1>
-
-        <p class="chapter-subtitle">
-            Starting the Paid Service
-        </p>
-
+     <section class="chapter-hero">
+        <p class="chapter-label">OMNISCIENT READER'S VIEWPOINT</p>
+        <h1>Chapter 1</h1>
+        <p class="chapter-subtitle">Starting the Paid Service</p>
     </section>
+
+    <figure class="chapter-cover">
+        <img 
+            src="https://orv.pages.dev/assets/images/Cover%20Part%201%20-%20002%20-%20Vol%201%20-%20Episodes%2001-06.jpg"
+            alt="image for chapter one">
+    </figure>
 
 
     <section class="reader-window">
@@ -346,24 +370,16 @@
 
 
     <section class="chapter-navigation">
-
-
-        <a class="next-button" href="index.html" target="_blank">
-
+        <a class="next-button" href="index.html">
             NEXT CHAPTER →
-
         </a>
-</body>
     </section>
+
         <footer class="orv-footer">
-
-        <div class="footer-logo">
-
+        <a class="footer-logo" href="index.html">
             <div class="sigil"></div>
-
             <span>ORV ARCHIVE</span>
-
-        </div>
+        </a>
 
         <div class="footer-credit">
             Designed by Emilia Kojs s35956
@@ -372,3 +388,5 @@
     </footer>
 
 </main>
+</body>
+</html>
